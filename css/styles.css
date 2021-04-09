@@ -1,0 +1,46 @@
+header {
+  background-color: #1e212d;
+}
+
+body {
+  background-color: #f2edd7;
+}
+
+.top-bar {
+  color: white;
+  font-size: 50px;
+}
+
+.page-name {
+  font-size: 45px;
+  margin-top: 0;
+}
+
+.orange {
+  font-size: 35px;
+  border-radius: 5px;
+  background-color: #e48257;
+  border: none;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.switch,
+.submit {
+  font-size: 20px;
+  background-color: #1e212d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.data {
+  border: none;
+  border-radius: 5px;
+  background-color: #e48257;
+}
+
+.data > p {
+  font-size: 25px;
+  line-height: 2.5;
+}

@@ -1,0 +1,52 @@
+header {
+  height: 100px;
+}
+
+.top-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-button,
+.page-name,
+.search,
+#search-date,
+.home-page {
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
+
+#search-date {
+  flex-wrap: wrap;
+}
+
+.search {
+  width: 100%;
+  flex-direction: row;
+}
+
+.switch-submit {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data-outline {
+  height: 400px;
+  display: flex;
+  justify-content: center;
+}
+
+.data {
+  width: 30%;
+}
+
+.data > p {
+  display: flex;
+  justify-content: center;
+}
