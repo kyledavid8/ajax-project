@@ -38,9 +38,9 @@ body {
   border: none;
   border-radius: 5px;
   background-color: #e48257;
+  margin-top: 20px;
 }
 
 .data > p {
   font-size: 25px;
-  line-height: 2.5;
 }
