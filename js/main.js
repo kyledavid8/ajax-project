@@ -28,26 +28,26 @@ Finder.prototype.changePage = function (event) {
     return;
   }
 
-  homePage.className = 'home-page hidden';
-  searchPage.className = 'search-page hidden';
-  resultPage.className = 'result-page hidden';
+  homePage.classList.add('hidden');
+  searchPage.classList.add('hidden');
+  resultPage.classList.add('hidden');
   if (event.target === findButton) {
-    searchPage.className = 'search-page';
+    searchPage.classList.remove('hidden');
     holiday.status = 'search-page';
   } else if (event.target === submit) {
     dataOutline.innerHTML = '';
     holiday.renderResults();
-    resultPage.className = 'result-page';
+    resultPage.classList.remove('hidden');
     holiday.status = 'result-page';
   } else if (event.target === back) {
     for (var i = 0; backHome.length > i; i++) {
       if (backHome[i] === holiday.status) {
-        homePage.className = 'home-page';
+        homePage.classList.remove('hidden');
         holiday.status = 'home-page';
       }
     }
     if (holiday.status === 'result-page') {
-      searchPage.className = 'search-page';
+      searchPage.classList.remove('hidden');
       holiday.status = 'search-page';
     }
   }
@@ -58,14 +58,11 @@ Finder.prototype.renderResults = function () {
   xhr.open('GET', 'https://holidayapi.com/v1/holidays?pretty&key=c1e47cbf-5b67-44b0-8359-4fe2afc3ae3a&country=US&year=2020');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var i = 0;
     var addy = [];
-    while (xhr.response.holidays.length > i) {
+
+    for (var i = 0; xhr.response.holidays.length > i; i++) {
       if (searchBox.value === xhr.response.holidays[i].date) {
         addy.push(i);
-        i++;
-      } else {
-        i++;
       }
     }
 
