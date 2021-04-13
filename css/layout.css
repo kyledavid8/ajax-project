@@ -10,19 +10,28 @@ header {
 
 .search-button,
 .page-name,
-.search,
-#search-date,
-.home-page {
+.search {
   display: flex;
   justify-content: center;
+}
+
+.home-page {
+  flex-direction: column;
+}
+
+.home-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .hidden {
   display: none;
 }
 
-#search-date {
-  flex-wrap: wrap;
+.search-box {
+  width: 67%;
+  height: 75px;
 }
 
 .search {
@@ -47,6 +56,30 @@ header {
 }
 
 .data > p {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.third {
+  width: calc(100% / 3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-data {
+  flex-direction: column;
+  align-items: center;
+}
+
+.dots {
   display: flex;
   justify-content: center;
 }

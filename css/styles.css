@@ -44,3 +44,7 @@ body {
 .data > p {
   font-size: 25px;
 }
+
+.dots > span {
+  margin-right: 5px;
+}

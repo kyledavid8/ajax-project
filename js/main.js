@@ -8,8 +8,10 @@ var holiday = new Finder();
 var homePage = document.querySelector('.home-page');
 var searchPage = document.querySelector('.search-page');
 var resultPage = document.querySelector('.result-page');
+var carouselPage = document.querySelector('.carousel-page');
 
 var findButton = document.querySelector('.home-search');
+var carouselButton = document.querySelector('.home-carousel');
 var submit = document.querySelector('.submit');
 var switchButton = document.querySelector('.switch');
 var switchSubmitContainer = document.querySelector('.switch-submit');
@@ -19,10 +21,10 @@ var searchBox = document.querySelector('#search-box');
 var inputSearchHeader = document.querySelector('.input-search-header');
 var main = document.querySelector('main');
 
-var backHome = ['search-page'];
+var backHome = ['search-page', 'carousel-page'];
 
 Finder.prototype.changePage = function (event) {
-  if (event.target === searchBox || event.target === switchButton || event.target === switchSubmitContainer) {
+  if (event.target === searchBox || event.target === switchButton || event.target === switchSubmitContainer || event.target === carouselPage) {
     return;
   }
 
@@ -30,9 +32,13 @@ Finder.prototype.changePage = function (event) {
   homePage.classList.add('hidden');
   searchPage.classList.add('hidden');
   resultPage.classList.add('hidden');
+  carouselPage.classList.add('hidden');
   if (event.target === findButton) {
     searchPage.classList.remove('hidden');
     holiday.status = 'search-page';
+  } else if (event.target === carouselButton) {
+    carouselPage.classList.remove('hidden');
+    holiday.status = 'carousel-page';
   } else if (event.target === submit) {
     dataOutline.innerHTML = '';
     holiday.renderResults();

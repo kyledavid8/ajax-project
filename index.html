@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
   <header>
@@ -18,13 +19,19 @@
   <main>
     <img src="https://img.icons8.com/ios-filled/50/000000/left.png" class="back hidden" />
     <div class="home-page">
-      <button type="button" class="orange home-search">Find a Holiday</button>
+      <div class="home-button">
+        <button type="button" class="orange home-search">Find a Holiday</button>
+      </div>
+      <div class="home-button">
+        <button type="button" class="orange home-carousel">Upcoming Holidays</button>
+      </div>
+
     </div>
     <div class="search-page hidden">
       <h1 class="page-name input-search-header">Search by Date</h1>
       <div id="search-container">
         <div class="search">
-          <input type="date" min="2020-01-01" max="2020-12-31" class="orange" id="search-box">
+          <input type="date" min="2020-01-01" max="2020-12-31" class="orange search-box" id="search-box">
         </div>
         <div class="switch-submit">
             <button type="button" class="switch">Search by Name</button>
@@ -35,6 +42,29 @@
     <div class="result-page hidden">
       <h1 class="page-name">Search Results</h1>
       <div class="data-outline">
+      </div>
+    </div>
+    <div class="carousel-page hidden">
+      <h1 class="page-name">Upcoming Holidays</h1>
+      <div id="carousel">
+        <div class="carousel-container">
+          <div class="third">
+            <img src="https://img.icons8.com/material-rounded/50/000000/chevron-left.png"/>
+          </div>
+          <div class="third data carousel-data">
+            <p>ooo</p>
+            <p>www</p>
+            <p>qqqq</p>
+          </div>
+          <div class="third">
+            <img src="https://img.icons8.com/material-rounded/50/000000/chevron-right.png" />
+          </div>
+        </div>
+        <div class="dots">
+          <span class="fas fa-circle"></span>
+          <span class="far fa-circle"></span>
+          <span class="far fa-circle"></span>
+        </div>
       </div>
     </div>
   </main>
