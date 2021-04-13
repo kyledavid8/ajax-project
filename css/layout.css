@@ -31,7 +31,7 @@ header {
 }
 
 .switch-submit {
-  width: 100%;
+  width: 64%;
   display: flex;
   justify-content: space-between;
 }

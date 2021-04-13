@@ -11,6 +11,11 @@ body {
   margin-top: 4%;
 }
 
+#search-box {
+  width: 67%;
+  height: 75px;
+}
+
 .top-bar,
 .back {
   margin-left: 5%;
