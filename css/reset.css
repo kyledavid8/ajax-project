@@ -9,11 +9,7 @@ body {
 .orange {
   padding: 1% 25%;
   margin-top: 4%;
-}
-
-#search-box {
   width: 67%;
-  height: 75px;
 }
 
 .top-bar,
@@ -43,4 +39,12 @@ input.orange {
 
 .data {
   line-height: 2;
+}
+
+.dots {
+  margin-top: 5%;
+}
+
+.dots > span {
+  margin-right: 5px;
 }
