@@ -1,6 +1,9 @@
-function Finder(status, searchStatus) {
+function Finder(status, searchStatus, carouselStatus, toggleCounter, dots) {
   this.status = 'home-page';
   this.searchStatus = 'date';
+  this.carouselStatus = 0;
+  this.dots = [document.querySelector('.dot-one > i'), document.querySelector('.dot-two > i'), document.querySelector('.dot-three > i'),
+    document.querySelector('.dot-four > i'), document.querySelector('.dot-five > i')];
 }
 
 var holiday = new Finder();
@@ -11,20 +14,24 @@ var resultPage = document.querySelector('.result-page');
 var carouselPage = document.querySelector('.carousel-page');
 
 var findButton = document.querySelector('.home-search');
-var carouselButton = document.querySelector('.home-carousel');
 var submit = document.querySelector('.submit');
 var switchButton = document.querySelector('.switch');
-var switchSubmitContainer = document.querySelector('.switch-submit');
 var dataOutline = document.querySelector('.data-outline');
 var back = document.querySelector('.back');
 var searchBox = document.querySelector('#search-box');
 var inputSearchHeader = document.querySelector('.input-search-header');
+var carouselData = document.querySelector('.carousel-data');
 var main = document.querySelector('main');
+
+var carouselButton = document.querySelector('.home-carousel');
+var right = document.querySelector('.right');
+var left = document.querySelector('.left');
 
 var backHome = ['search-page', 'carousel-page'];
 
 Finder.prototype.changePage = function (event) {
-  if (event.target === searchBox || event.target === switchButton || event.target === switchSubmitContainer || event.target === carouselPage) {
+
+  if (event.target !== back && event.target !== findButton && event.target !== carouselButton && event.target !== submit) {
     return;
   }
 
@@ -168,6 +175,63 @@ Finder.prototype.renderResults = function () {
   xhr.send();
 };
 
+Finder.prototype.renderCarouselData = function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://holidayapi.com/v1/holidays?pretty&key=c1e47cbf-5b67-44b0-8359-4fe2afc3ae3a&country=US&year=2020');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    carouselData.innerHTML = '';
+
+    var p = document.createElement('p');
+    p.textContent = xhr.response.holidays[holiday.carouselStatus].name;
+    carouselData.appendChild(p);
+
+    p = document.createElement('p');
+    p.textContent = xhr.response.holidays[holiday.carouselStatus].date;
+    carouselData.appendChild(p);
+
+    p = document.createElement('p');
+    p.textContent = xhr.response.holidays[holiday.carouselStatus].weekday.date.name;
+    carouselData.appendChild(p);
+
+    p = document.createElement('p');
+    var pub = '';
+    if (xhr.response.holidays[holiday.carouselStatus].public !== true) {
+      pub = 'No';
+    } else {
+      pub = 'Yes';
+    }
+    p.textContent = 'Public? ' + pub;
+    carouselData.appendChild(p);
+  });
+  xhr.send();
+};
+
+Finder.prototype.toggleCarousel = function (event) {
+  if (event.target === right) {
+    holiday.carouselStatus++;
+    holiday.dots[holiday.carouselStatus - 1].classList.remove('fas');
+    holiday.dots[holiday.carouselStatus - 1].classList.add('far');
+    if (holiday.carouselStatus === 5) {
+      holiday.carouselStatus = 0;
+      holiday.dots[4].classList.remove('fas');
+      holiday.dots[4].classList.add('far');
+    }
+  } else if (event.target === left) {
+    holiday.carouselStatus--;
+    holiday.dots[holiday.carouselStatus + 1].classList.remove('fas');
+    holiday.dots[holiday.carouselStatus + 1].classList.add('far');
+    if (holiday.carouselStatus === -1) {
+      holiday.carouselStatus = 4;
+      holiday.dots[0].classList.remove('fas');
+      holiday.dots[0].classList.add('far');
+    }
+  }
+
+  holiday.dots[holiday.carouselStatus].className = 'fas fa-circle';
+  holiday.renderCarouselData();
+};
+
 Finder.prototype.switch = function () {
   if (holiday.searchStatus === 'name') {
     holiday.searchStatus = 'date';
@@ -192,4 +256,12 @@ main.addEventListener('click', function () {
 
 switchButton.addEventListener('click', function () {
   holiday.switch();
+});
+
+carouselButton.addEventListener('click', function () {
+  holiday.renderCarouselData();
+});
+
+carouselPage.addEventListener('click', function () {
+  holiday.toggleCarousel(event);
 });
