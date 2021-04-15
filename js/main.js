@@ -1,12 +1,15 @@
-function Finder(status, searchStatus, carouselStatus, toggleCounter, dots) {
+function Finder(status, searchStatus, carouselStatus, carouselStatusOriginal, toggleCounter, dots) {
   this.status = 'home-page';
   this.searchStatus = 'date';
   this.carouselStatus = 0;
+  this.carouselStatusOriginal = 0;
+  this.toggleCounter = 0;
   this.dots = [document.querySelector('.dot-one > i'), document.querySelector('.dot-two > i'), document.querySelector('.dot-three > i'),
     document.querySelector('.dot-four > i'), document.querySelector('.dot-five > i')];
 }
 
 var holiday = new Finder();
+var d = new Date();
 
 var homePage = document.querySelector('.home-page');
 var searchPage = document.querySelector('.search-page');
@@ -175,6 +178,59 @@ Finder.prototype.renderResults = function () {
   xhr.send();
 };
 
+Finder.prototype.upcomingHoliday = function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://holidayapi.com/v1/holidays?pretty&key=c1e47cbf-5b67-44b0-8359-4fe2afc3ae3a&country=US&year=2020');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var monthString = d.getMonth() + 1;
+    monthString = monthString.toString();
+    var dayString = d.getDate();
+    dayString = dayString.toString();
+
+    for (var i = 0; xhr.response.holidays.length > i; i++) {
+      var holidayDate = xhr.response.holidays[i].date.split('-');
+      var singleMonth = holidayDate[1].split('');
+      var singleDay = holidayDate[2].split('');
+
+      if (singleMonth[0] === '0') {
+        if (singleMonth[1] === monthString) {
+          if (singleDay[0] === '0') {
+            if ((singleDay[1] - dayString) > 0 || singleDay[1] === dayString) {
+              holiday.carouselStatus = i;
+              holiday.carouselStatusOriginal = i;
+              break;
+            }
+          } else {
+            if ((holidayDate[2] - dayString) > 0 || holidayDate[2] === dayString) {
+              holiday.carouselStatus = i;
+              holiday.carouselStatusOriginal = i;
+              break;
+            }
+          }
+        }
+      } else {
+        if (holidayDate[1] === monthString) {
+          if (singleDay[0] === '0') {
+            if ((singleDay[1] - dayString) > 0 || singleDay[1] === dayString) {
+              holiday.carouselStatus = i;
+              holiday.carouselStatusOriginal = i;
+              break;
+            }
+          } else {
+            if ((holidayDate[2] - dayString) > 0 || holidayDate[2] === dayString) {
+              holiday.carouselStatus = i;
+              holiday.carouselStatusOriginal = i;
+              break;
+            }
+          }
+        }
+      }
+    };
+  });
+  xhr.send();
+}
+
 Finder.prototype.renderCarouselData = function () {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://holidayapi.com/v1/holidays?pretty&key=c1e47cbf-5b67-44b0-8359-4fe2afc3ae3a&country=US&year=2020');
@@ -210,25 +266,29 @@ Finder.prototype.renderCarouselData = function () {
 Finder.prototype.toggleCarousel = function (event) {
   if (event.target === right) {
     holiday.carouselStatus++;
-    holiday.dots[holiday.carouselStatus - 1].classList.remove('fas');
-    holiday.dots[holiday.carouselStatus - 1].classList.add('far');
-    if (holiday.carouselStatus === 5) {
-      holiday.carouselStatus = 0;
+    holiday.toggleCounter++;
+    holiday.dots[holiday.toggleCounter - 1].classList.remove('fas');
+    holiday.dots[holiday.toggleCounter - 1].classList.add('far');
+    if (holiday.carouselStatus === (holiday.carouselStatusOriginal + 5)) {
+      holiday.carouselStatus = holiday.carouselStatusOriginal;
+      holiday.toggleCounter = 0;
       holiday.dots[4].classList.remove('fas');
       holiday.dots[4].classList.add('far');
     }
   } else if (event.target === left) {
     holiday.carouselStatus--;
-    holiday.dots[holiday.carouselStatus + 1].classList.remove('fas');
-    holiday.dots[holiday.carouselStatus + 1].classList.add('far');
-    if (holiday.carouselStatus === -1) {
-      holiday.carouselStatus = 4;
+    holiday.toggleCounter--;
+    holiday.dots[holiday.toggleCounter + 1].classList.remove('fas');
+    holiday.dots[holiday.toggleCounter + 1].classList.add('far');
+    if (holiday.carouselStatus === (holiday.carouselStatusOriginal - 1)) {
+      holiday.carouselStatus = holiday.carouselStatusOriginal + 4;
+      holiday.toggleCounter = 4
       holiday.dots[0].classList.remove('fas');
       holiday.dots[0].classList.add('far');
     }
   }
 
-  holiday.dots[holiday.carouselStatus].className = 'fas fa-circle';
+  holiday.dots[holiday.toggleCounter].className = 'fas fa-circle';
   holiday.renderCarouselData();
 };
 
@@ -250,6 +310,21 @@ Finder.prototype.switch = function () {
   }
 };
 
+Finder.prototype.carouselRight = function() {
+  holiday.carouselStatus++;
+  holiday.toggleCounter++;
+  holiday.dots[holiday.toggleCounter - 1].classList.remove('fas');
+  holiday.dots[holiday.toggleCounter - 1].classList.add('far');
+  if (holiday.carouselStatus === (holiday.carouselStatusOriginal + 5)) {
+    holiday.carouselStatus = holiday.carouselStatusOriginal;
+    holiday.toggleCounter = 0;
+    holiday.dots[4].classList.remove('fas');
+    holiday.dots[4].classList.add('far');
+  }
+  holiday.dots[holiday.toggleCounter].className = 'fas fa-circle';
+  holiday.renderCarouselData();
+}
+
 main.addEventListener('click', function () {
   holiday.changePage(event);
 });
@@ -259,9 +334,17 @@ switchButton.addEventListener('click', function () {
 });
 
 carouselButton.addEventListener('click', function () {
+  holiday.upcomingHoliday();
   holiday.renderCarouselData();
+  var int = setInterval(function () {
+    holiday.carouselRight();
+  }, 3000);
 });
 
 carouselPage.addEventListener('click', function () {
+  clearInterval(int);
   holiday.toggleCarousel(event);
+  int = setInterval(function () {
+    holiday.carouselRight();
+  }, 3000);
 });
