@@ -48,3 +48,14 @@ body {
 .dots > span {
   margin-right: 5px;
 }
+
+.list-container {
+  margin-left: 5%;
+}
+
+.section-container > button {
+  display: block;
+  margin-bottom: 4px;
+  border: none;
+  background-color: #F2EDD7
+}
